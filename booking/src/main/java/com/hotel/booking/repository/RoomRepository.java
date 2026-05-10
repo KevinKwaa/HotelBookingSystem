@@ -13,12 +13,12 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     // Find rooms NOT booked during the requested date range
     @Query("""
-        SELECT r FROM rooms r
+        SELECT r FROM Room r
         WHERE (:category IS NULL OR r.category = :category)
-        AND r.status = 'AVAILABLE'
+        AND r.status = 'Available'
         AND r.id NOT IN (
-            SELECT b.room.id FROM bookings b
-            WHERE b.status != 'CANCELLED'
+            SELECT b.room.id FROM Booking b
+            WHERE b.bookingStatus != 'CANCELLED'
             AND b.checkIn < :checkOut
             AND b.checkOut > :checkIn
         )
@@ -26,6 +26,29 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findAvailableRooms(
         @Param("checkIn") LocalDate checkIn,
         @Param("checkOut") LocalDate checkOut,
+        @Param("category") Room.Category category
+    );
+
+    @Query("""
+        SELECT r FROM Room r
+        WHERE r.status = 'Available'
+        AND r.id NOT IN (
+            SELECT b.room.id FROM Booking b
+            WHERE b.bookingStatus != 'CANCELLED'
+        )
+    """)
+    List<Room> findAllAvailable();
+
+    @Query("""
+        SELECT r FROM Room r
+        WHERE (:category IS NULL OR r.category = :category)
+        AND r.status = 'Available'
+        AND r.id NOT IN (
+            SELECT b.room.id FROM Booking b
+            WHERE b.bookingStatus != 'CANCELLED'
+        )
+    """)
+    List<Room> findByCategoryAvailable(
         @Param("category") Room.Category category
     );
 }

@@ -3,6 +3,7 @@ package com.hotel.booking.controller;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hotel.booking.model.Booking;
@@ -21,9 +22,9 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.findAll());
     }
 
-    @GetMapping("/getBookingbyUser")
-    public ResponseEntity<List<Booking>> getBookingbyUser(Long id) {
-        return ResponseEntity.ok(bookingService.getBookingByUser(id));
+    @GetMapping("/getBookingbyUser/{userId}")
+    public ResponseEntity<List<Booking>> getBookingbyUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(bookingService.getBookingByUser(userId));
     }
 
     @GetMapping("/getBookingbyRoom")

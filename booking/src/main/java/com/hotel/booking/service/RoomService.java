@@ -22,6 +22,18 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public List<Room> findAllAvailable() {
+        return roomRepository.findAllAvailable();
+    }
+
+    public List<Room> findByCategoryAvailable(Room.Category category) {
+        return roomRepository.findByCategoryAvailable(category);
+    }
+
+    public List<Room> findByCategory(Room.Category category) {
+        return roomRepository.findByCategory(category);
+    }
+
     public Room updateStatus(Long roomId, Room.Status status) {
         Room room = roomRepository.findById(roomId)
             .orElseThrow(() -> new RuntimeException("Room not found"));

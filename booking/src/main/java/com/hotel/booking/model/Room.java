@@ -2,10 +2,14 @@ package com.hotel.booking.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "rooms")
 @Data
 public class Room {
     @Id
@@ -27,6 +31,7 @@ public class Room {
     private BigDecimal pricePerNight;
 
     @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum Category {

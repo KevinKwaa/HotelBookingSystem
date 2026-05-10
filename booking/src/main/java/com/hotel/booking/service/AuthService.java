@@ -1,6 +1,5 @@
 package com.hotel.booking.service;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import com.hotel.booking.dto.AuthResponse;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -24,9 +22,17 @@ public class AuthService {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(request.getPassword());
+        user.setRole(User.Role.CUSTOMER);
         userRepository.save(user);
-        return new AuthResponse(user.getName(), user.getEmail(), user.getRole().name());
+        return new AuthResponse(
+            user.getUserId(),
+            user.getName(), 
+            user.getEmail(), 
+            user.getPhoneNumber(),
+            user.getRole().name(),
+            user.getCreatedAt()
+        );
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -35,11 +41,17 @@ public class AuthService {
         if(ObjectUtils.isEmpty(user)){
             throw new RuntimeException("Invalid credentials");
         } else {
-            if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            if(!request.getPassword().equals(user.getPassword())){
                 throw new RuntimeException("Invalid credentials");
             }
         }
-
-        return new AuthResponse(user.getName(), user.getEmail(), user.getRole().name());
+        return new AuthResponse(
+            user.getUserId(),
+            user.getName(), 
+            user.getEmail(), 
+            user.getPhoneNumber(),
+            user.getRole().name(),
+            user.getCreatedAt()
+        );
     }
 }

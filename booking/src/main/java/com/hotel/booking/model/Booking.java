@@ -3,10 +3,14 @@ package com.hotel.booking.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
+@Table(name = "bookings")
 @Data
 public class Booking {
     @Id
@@ -35,6 +39,7 @@ public class Booking {
     private BigDecimal totalPrice;
 
     @Column(updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum Status { PENDING, CONFIRMED, CANCELLED }

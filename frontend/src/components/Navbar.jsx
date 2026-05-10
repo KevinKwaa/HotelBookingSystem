@@ -12,20 +12,14 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white border-b px-6 py-3 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-blue-700">🏨 HotelBook</Link>
+      <Link 
+        to={user == null? "/" : user.role == 'STAFF'? "/staff" : user.role == 'CUSTOMER' && "/customer"}
+        className="text-xl font-bold text-blue-700">🏨 Royal Hotel
+      </Link>
       <div className="flex items-center gap-4 text-sm">
-        <Link to="/" className="hover:text-blue-600">Search</Link>
         {user ? (
           <>
-            <Link to="/my-bookings" className="hover:text-blue-600">My Bookings</Link>
-            {user.role === 'STAFF' && (
-              <Link to="/staff" className="hover:text-blue-600">Dashboard</Link>
-            )}
-            <span className="text-gray-400">|</span>
-            <span className="text-gray-600">{user.name}</span>
-            {user.role === 'CUSTOMER' && (
-              <span className="text-yellow-600 font-medium">⭐ {user.loyaltyPoints} pts</span>
-            )}
+            <Link to="/userProfile" className="hover:text-blue-600">{user.name}</Link>
             <button onClick={handleLogout} className="text-red-500 hover:underline">Logout</button>
           </>
         ) : (

@@ -7,7 +7,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,15 +16,17 @@ export default function Login() {
     try {
       const { data } = await api.post('/auth/login', form);
       login(data);
-      navigate(data.role === 'STAFF' ? '/staff' : '/');
+      navigate(data.role === 'STAFF' ? '/staff' : '/customer');
     } catch {
       setError('Invalid email or password');
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-16">
-      <h1 className="text-2xl font-bold mb-6">Sign In</h1>
+    <div className="max-w mx-auto mt-16">
+      <h1 className="text-2xl font-bold mb-6">Welcome back!</h1>
+      <h2 className="text-2xl font-bold mb-6">Book a nice room for yourself at Royal Hotel!</h2>
+      <h3 className="text-2xl font-bold mb-6">Sign In</h3>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -57,8 +59,8 @@ export default function Login() {
           Login
         </button>
       </form>
-      <p className="mt-4 text-sm">
-        No account? <Link to="/register" className="text-blue-600">Register</Link>
+      <p className="mt-4 text-sm pt-4">
+        No account? <Link to="/register" className="text-blue-300">Register</Link>
       </p>
     </div>
   );

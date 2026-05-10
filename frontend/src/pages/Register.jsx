@@ -25,8 +25,10 @@ export default function Register() {
     };
 
     return (
-    <div className="max-w-md mx-auto mt-16">
-      <h1 className="text-2xl font-bold mb-6">Register</h1>
+    <div className="max-w-130 mx-auto mt-16">
+      <h1 className="text-2xl font-bold mb-6">Welcome to Royal Hotel</h1>
+      <h2 className="text-2xl font-bold mb-6">Get an account and enjoy booking!</h2>
+      <h3 className="text-2xl font-bold mb-6">Register</h3>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
