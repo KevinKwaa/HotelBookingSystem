@@ -9,6 +9,7 @@ import Staff from './pages/staff/Staff';
 import BookingHistory from './pages/shareComponents/BookingHistory';
 import BookHotel from './pages/shareComponents/BookHotel';
 import CustomerList from './pages/staff/CustomerList';
+import RoomHistory from './pages/staff/RoomHistory';
 // import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/bookingHistory" element={<BookingHistory />} />
             <Route path="/bookHotel" element={<BookHotel />} />
             <Route path="/customerList" element={<CustomerList />} />
+            <Route path="/roomHistory" element={<RoomHistory />} />
             {/* <Route path="/my-bookings" element={
               <ProtectedRoute><MyBookingsPage /></ProtectedRoute>
             } /> */}

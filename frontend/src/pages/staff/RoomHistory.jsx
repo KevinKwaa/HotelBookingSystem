@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 
-export default function CustomerList(){
+export default function RoomHistory(){
     const navigate = useNavigate();
     const { user, logout } = useAuth();
     const [userData, setUserData] = useState([])

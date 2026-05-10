@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 
-export default function BookingHistory(){
+export default function BookHotel(){
     const navigate = useNavigate();
     const { user, logout } = useAuth();
     const [roomData, setRoomData] = useState([])
@@ -131,7 +131,12 @@ export default function BookingHistory(){
                                 }`}
                             >
                                 <td className="px-4 py-3 text-left text-white">
-                                    {room.roomNumber}
+                                    <button
+                                        className='bg-#393a3b hover:bg-slate-500 hover:cursor-pointer'
+                                        onClick={() => navigate('/roomHistory')}
+                                    >
+                                        {room.roomNumber}
+                                    </button>
                                 </td>
                                 <td className="px-4 py-3 text-left text-white">
                                     {room.category}
