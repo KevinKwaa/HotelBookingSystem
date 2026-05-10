@@ -58,7 +58,7 @@ export default function Login() {
         </button>
       </form>
       <p className="mt-4 text-sm">
-        No account? <Link to="/Register" className="text-blue-600">Register</Link>
+        No account? <Link to="/register" className="text-blue-600">Register</Link>
       </p>
     </div>
   );

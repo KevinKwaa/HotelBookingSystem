@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/Login';
+import RegisterPage from './pages/Register';
 // import SearchPage from './pages/SearchPage';
 // import MyBookingsPage from './pages/MyBookingsPage';
 // import StaffDashboard from './pages/StaffDashboard';
@@ -15,7 +15,7 @@ export default function App() {
         <Navbar />
         <main className="max-w-6xl mx-auto px-4 py-8">
           <Routes>
-            {/* <Route path="/" element={<SearchPage />} /> */}
+            <Route path="/" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             {/* <Route path="/my-bookings" element={

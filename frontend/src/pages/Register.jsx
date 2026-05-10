@@ -76,7 +76,7 @@ export default function Register() {
         </button>
       </form>
       <p className="mt-4 text-sm">
-        Have an account? <Link to="/Login" className="text-blue-600">Login</Link>
+        Have an account? <Link to="/login" className="text-blue-600">Login</Link>
       </p>
     </div>
   );
