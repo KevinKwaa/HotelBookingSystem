@@ -21,6 +21,18 @@ public class BookingService {
         return bookingRepository.findByRoomId(roomId);
     }
 
+    public List<Booking> getBookingByUserAndRoom(Long userId, Long roomId){
+        if (userId != null && roomId != null) {
+            return bookingRepository.findByUserUserIdAndRoomId(userId, roomId);
+        } else if (userId != null) {
+            return bookingRepository.findByUserUserId(userId);
+        } else if (roomId != null) {
+            return bookingRepository.findByRoomId(roomId);
+        } else {
+            return bookingRepository.findAll();
+        }
+    }
+
     public List<Booking> findAll() {
         return bookingRepository.findAll();
     }
