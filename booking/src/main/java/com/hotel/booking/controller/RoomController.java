@@ -21,14 +21,8 @@ public class RoomController {
     public ResponseEntity<List<Room>> getAvailable(
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
-        @RequestParam(required = false) Room.Category category,
-        @RequestParam User.Role role
+        @RequestParam(required = false) Room.Category category
     ) {
-        if (category != null) {
-            if(role == User.Role.STAFF){
-                return ResponseEntity.ok(roomService.findByCategory(category));
-            }
-        }
         return ResponseEntity.ok(roomService.findAvailable(checkIn, checkOut, category));
     }
 
@@ -37,13 +31,28 @@ public class RoomController {
         return ResponseEntity.ok(roomService.findAll());
     }
 
-    @GetMapping("/deleteRoom")
+    @GetMapping("/countRoom")
+    public ResponseEntity<Long> countRoom(){
+        return ResponseEntity.ok(roomService.countRoom());
+    }
+
+    @DeleteMapping("/deleteRoom")
     public ResponseEntity<Room> removeRoom(Long roomId){ 
         return ResponseEntity.ok(roomService.deleteRoom(roomId));
     }
 
-    @GetMapping("/newRoom")
+    @PostMapping("/newRoom")
     public ResponseEntity<Room> addRoom(@RequestBody Room room){
             return ResponseEntity.ok(roomService.addRoom(room));
+    }
+
+    @PutMapping("/updateRoom/{id}")
+    public ResponseEntity<Room> updateRoom(@PathVariable Long id, @RequestBody Room roomDetails) {
+        return ResponseEntity.ok(roomService.updateRoom(id, roomDetails));
+    }
+
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<Room> updateRoom(@PathVariable Long id, @RequestBody Room.Status status) {
+        return ResponseEntity.ok(roomService.updateStatus(id, status));
     }
 }

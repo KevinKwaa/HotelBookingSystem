@@ -14,11 +14,18 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     public List<Room> findAvailable(LocalDate checkIn, LocalDate checkOut, Room.Category category) {
-        return roomRepository.findAvailableRooms(checkIn, checkOut, category);
+        if (checkIn == null || checkOut == null) {
+        return roomRepository.findByStatus(Room.Status.Available);
+    }
+    return roomRepository.findAvailableRooms(checkIn, checkOut, category);
     }
 
     public List<Room> findAll() {
         return roomRepository.findAll();
+    }
+
+    public Long countRoom(){
+        return roomRepository.count();
     }
 
     public List<Room> findByCategory(Room.Category category) {
@@ -40,6 +47,16 @@ public class RoomService {
     }
 
     public Room addRoom(Room room) {
+        return roomRepository.save(room);
+    }
+
+    public Room updateRoom(Long id, Room roomDetails) {
+        Room room = roomRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Room not found"));
+        room.setRoomNumber(roomDetails.getRoomNumber());
+        room.setCategory(roomDetails.getCategory());
+        room.setStatus(roomDetails.getStatus());
+        room.setPricePerNight(roomDetails.getPricePerNight());
         return roomRepository.save(room);
     }
 }

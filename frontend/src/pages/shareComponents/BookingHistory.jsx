@@ -7,9 +7,9 @@ export default function BookingHistory(){
     const navigate = useNavigate();
     const { user, logout } = useAuth();
     const [bookingData, setBookingData] = useState([])
-    const [roomNumber, setRoomNumber] = useState(null);
-    const [userId, setUserId] = useState(null);
     const [error, setError] = useState('');
+    const [roomId, setRoomId] = useState('');
+    const [userId, setUserId] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -18,41 +18,28 @@ export default function BookingHistory(){
             return;
         }
         console.log(user);
-        setRoomNumber(null);
-        setUserId(null);
+        setRoomId('');
+        setUserId('');
         fetchBookingHistory();
     }, []);
 
     // api calls
     const fetchBookingHistory = async () => {
         try {
-            const isStaff = user?.role === 'STAFF';
-
-            const params = {};
-            if (roomNumber) params.roomNumber = roomNumber;
-            if (userId) params.userId = userId;
-
-            let endpoint = '/bookings';
-
-            if (!isStaff) {
-                endpoint = `/bookings/getBookingbyUser/${user.userId}`;
-            } else if (isStaff) {
-                if (roomNumber && !userId) {
-                    endpoint = `/bookings/getBookingbyRoom/${roomNumber}`;
-                } else if (!roomNumber && userId) {
-                    endpoint = `/bookings/getBookingbyUser/${userId}`;
-                } else if (roomNumber && userId) {
-                    endpoint = `/bookings/getBookingbyUserandRoom`;
-                }
-            }
-
-            const { data } = await api.get(endpoint, { params });
-
-            setBookingData(data);
-
             if(user.role === 'STAFF'){
-                const { data } = await api.get(`/bookings`);
-                setBookingData(data);
+                if(!roomId && !userId){
+                    const { data } = await api.get(`/bookings`);
+                    setBookingData(data);
+                } else if(roomId && !userId){
+                    const { data } = await api.get(`/bookings/getBookingbyRoom/${roomId}`);
+                    setBookingData(data);
+                } else if(!roomId && userId){
+                    const { data } = await api.get(`/bookings/getBookingbyUser/${userId}`);
+                    setBookingData(data);
+                } else if(roomId && userId){
+                    const { data } = await api.get(`/bookings/getBookingbyUserandRoom`, { params: { userId, roomId } });
+                    setBookingData(data);
+                }
             } else {
                 const { data } = await api.get(`/bookings/getBookingbyUser/${user.userId}`);
                 setBookingData(data);
@@ -64,59 +51,63 @@ export default function BookingHistory(){
         }
     }
 
-    const countDays = async (checkIn, checkOut) =>{
+    const countDays = (checkIn, checkOut) => {
         const checkInDate = new Date(checkIn);
         const checkOutDate = new Date(checkOut);
         const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
-        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        return daysDiff;
+        return Math.ceil(timeDiff / (1000 * 3600 * 24));
     }
 
     return (
         <div className="mx-auto mt-16">
-            <h2 className="text-2xl font-bold mb-6 border-b border-slate-700">Booking History</h2>
-            <div className="flex gap-4 mb-6 items-end">
-                <div className="flex flex-col">
-                    <label className="text-sm text-slate-400 mb-1">Customer ID</label>
-                    <input
-                        type="text"
-                        className="px-3 py-2 rounded bg-slate-800 text-white border border-slate-600"
-                        value={userId}
-                        onChange={(e) => setUserId(e.target.value)}
-                    />
-                </div>
-                <div className="flex flex-col"> - </div>
-
-                <div className="flex flex-col">
-                    <label className="text-sm text-slate-400 mb-1">Room Number</label>
-                    <input
-                        type="text"
-                        className="px-3 py-2 rounded bg-slate-800 text-white border border-slate-600"
-                        value={roomNumber}
-                        onChange={(e) => setRoomNumber(e.target.value)}
-                    />
-                </div>
-
-                <button
-                    className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded"
-                    onClick={fetchBookingHistory}
-                >
-                    Search
-                </button>
-            </div>
+            <h2 className="text-2xl font-bold mb-6 border-b border-slate-700 pb-6">Booking History</h2>
             <div className="rounded-xl p-6">
+                {user.role === 'STAFF' && (
+                <div className="flex gap-4 mb-6 items-end">
+                    <div className="flex flex-col">
+                        <label className="text-sm text-slate-400 mb-1">Room ID</label>
+                        <input
+                            type="text"
+                            className="px-3 py-2 rounded bg-slate-800 text-white border border-slate-600"
+                            value={roomId}
+                            onChange={(e) => setRoomId(e.target.value)}
+                        />
+                    </div>
+                    
+                    <div className="flex flex-col">
+                        <label className="text-sm text-slate-400 mb-1">Customer ID</label>
+                        <input
+                            type="text"
+                            className="px-3 py-2 rounded bg-slate-800 text-white border border-slate-600"
+                            value={userId}
+                            onChange={(e) => setUserId(e.target.value)}
+                        />
+                    </div>
+
+                    <button
+                        className="px-4 py-2 bg-slate-700 hover:bg-slate-600 hover:cursor-pointer text-white rounded"
+                        onClick={fetchBookingHistory}
+                    >
+                        Search
+                    </button>
+                </div>
+            )}
                 <table className="w-full text-lg border-collapse">
                     <thead className="bg-slate-700">
                         <tr>
+                            {user.role === 'STAFF' && (
+                                <th className="px-4 py-3 text-left font-semibold text-slate-400">Room ID</th>
+                            )
+                            }
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Room</th>
                             {user.role === 'STAFF' && (
                                 <th className="px-4 py-3 text-left font-semibold text-slate-400">Customer ID</th>
                             )
                             }
-                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Customer Name</th>
+                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Name</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Category</th>
-                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Check In Date</th>
-                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Check Out Date</th>
+                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Check In</th>
+                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Check Out</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Total Stay Days</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Booking Status</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Price per Night (RM)</th>
@@ -127,6 +118,11 @@ export default function BookingHistory(){
                         {bookingData?.length > 0 ? (
                             bookingData.map((booking) => (
                             <tr key={booking.id} className="border-t border-slate-700">
+                                {user.role === 'STAFF' && (
+                                    <td className="px-4 py-3 text-left text-white">
+                                        {booking.room.id ?? '—'}
+                                    </td>
+                                )}
                                 <td className="px-4 py-3 text-left text-white">
                                     {booking.room?.roomNumber ?? '—'}
                                 </td>
@@ -147,7 +143,7 @@ export default function BookingHistory(){
                                 <td className="px-4 py-3 text-left text-white">
                                     {booking.checkOut ? booking.checkOut.split('T')[0] : '—'}
                                 </td>
-                                <td className="px-4 py-3 text-left text-white">
+                                <td className="px-4 py-3 text-center text-white">
                                     {countDays(booking.checkIn, booking.checkOut)}
                                 </td>
                                 <td className="px-4 py-3 text-left text-white">

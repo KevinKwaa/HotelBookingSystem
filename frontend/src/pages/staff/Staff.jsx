@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
-import { BedDouble, ClipboardList } from "lucide-react";
+import { BedDouble, ClipboardList, Users } from "lucide-react";
 
 export default function Staff(){
     const navigate = useNavigate();
@@ -10,6 +10,34 @@ export default function Staff(){
     const [userData, setUserData] = useState(null)
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
+    const [totalRoom, setTotalRoom] = useState(0);
+    const [totalBooking, setTotalBooking] = useState(0);
+    const [totalCustomers, setTotalCustomers] = useState(0);
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+        console.log(user);
+        fetchDashboardData();
+    }, []);
+
+    const fetchDashboardData = async () => {
+        try {
+            const { data: roomData } = await api.get(`/rooms/countRoom`);
+            const { data: bookingData } = await api.get(`/bookings/countBooking`);
+            const { data: customerData } = await api.get(`/users/countUser`);
+
+            setTotalRoom(roomData);
+            setTotalBooking(bookingData);
+            setTotalCustomers(customerData);
+        } catch {
+            setError('Failed to load profile.');
+        } finally {
+            setLoading(false);
+        }
+    }
 
     if (!user) return <p className="text-center mt-16">No data found.</p>;
 
@@ -22,6 +50,56 @@ export default function Staff(){
                 <p className="text-slate-400 text-lg">
                     What would you like to do today?
                 </p>
+            </div>
+
+            <div className="mt-10 w-24 border-t border-slate-700 mb-10" />
+
+            <h2 className="text-2xl font-bold pb-2">Dashboard Overview</h2>
+            <div className="flex flex-wrap max-w gap-4 mb-10">
+                <div className="bg-slate-800 rounded-xl px-6 py-8 w-full sm:w-64">
+                    <div className="flex items-center gap-4">
+                        <div className="bg-blue-500 p-2 rounded-lg">
+                            <BedDouble size={20} className="text-white" />
+                        </div>
+
+                        <div className="flex flex-col justify-center">
+                            <p className="text-slate-400 text-base font-medium uppercase tracking-wider">
+                                Total Rooms
+                            </p>
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-white">{totalRoom}</p>
+                </div>
+
+                <div className="bg-slate-800 rounded-xl px-6 py-8 w-full sm:w-64">
+                    <div className="flex items-center gap-4">
+                        <div className="bg-blue-500 p-2 rounded-lg">
+                            <ClipboardList size={20} className="text-white" />
+                        </div>
+
+                        <div className="flex flex-col justify-center">
+                            <p className="text-slate-400 text-base font-medium uppercase tracking-wider">
+                                Total Bookings
+                            </p>
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-white">{totalBooking}</p>
+                </div>
+
+                <div className="bg-slate-800 rounded-xl px-6 py-8 w-full sm:w-64">
+                    <div className="flex items-center gap-4">
+                        <div className="bg-blue-500 p-2 rounded-lg">
+                            <Users size={20} className="text-white" />
+                        </div>
+
+                        <div className="flex flex-col justify-center">
+                            <p className="text-slate-400 text-base font-medium uppercase tracking-wider">
+                                Total Customers
+                            </p>
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-white">{totalCustomers}</p>
+                </div>
             </div>
 
             <div className="mt-10 w-24 border-t border-slate-700 mb-10" />

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import LoginPage from './pages/auth/Login';
 import RegisterPage from './pages/auth/Register';
@@ -9,7 +10,6 @@ import Staff from './pages/staff/Staff';
 import BookingHistory from './pages/shareComponents/BookingHistory';
 import BookHotel from './pages/shareComponents/BookHotel';
 import CustomerList from './pages/staff/CustomerList';
-import RoomHistory from './pages/staff/RoomHistory';
 // import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -17,6 +17,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
+        <Toaster position="top-right" />
         <main className="mx-auto px-4 py-8">
           <Routes>
             <Route path="/" element={<LoginPage />} />
@@ -28,13 +29,6 @@ export default function App() {
             <Route path="/bookingHistory" element={<BookingHistory />} />
             <Route path="/bookHotel" element={<BookHotel />} />
             <Route path="/customerList" element={<CustomerList />} />
-            <Route path="/roomHistory" element={<RoomHistory />} />
-            {/* <Route path="/my-bookings" element={
-              <ProtectedRoute><MyBookingsPage /></ProtectedRoute>
-            } /> */}
-            {/* <Route path="/staff" element={
-              <ProtectedRoute role="STAFF"><StaffDashboard /></ProtectedRoute>
-            } /> */}
           </Routes>
         </main>
       </BrowserRouter>

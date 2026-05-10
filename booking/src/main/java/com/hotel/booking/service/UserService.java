@@ -11,12 +11,16 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
 
-    public List<User> getUserById(Long userId){
+    public User getUserById(Long userId){
         return userRepository.findByUserId(userId);
     }
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public Long countUser(){
+        return userRepository.countCustomers();
     }
 
     public User deleteUser(Long userId){

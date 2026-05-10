@@ -23,8 +23,13 @@ public class UserController {
     }
 
     @GetMapping("/getUserById/{userId}")
-    public ResponseEntity<List<User>> getUserById(@PathVariable Long userId) {
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
+    }
+
+    @GetMapping("/countUser")
+    public ResponseEntity<Long> countUser(){
+        return ResponseEntity.ok(userService.countUser());
     }
 
     @DeleteMapping("/deleteUser/{userId}")

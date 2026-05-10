@@ -4,9 +4,14 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.hotel.booking.dto.BookingRequest;
 import com.hotel.booking.model.Booking;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +40,14 @@ public class BookingController {
 
     @GetMapping("/getBookingbyUserandRoom")
     public ResponseEntity<List<Booking>> getBookingByUserAndRoom(
-        @RequestParam (required = false) Long userId, 
-        @RequestParam (required = false) Long roomId) {
+        @RequestParam (required = true) Long userId, 
+        @RequestParam (required = true) Long roomId) {
         return ResponseEntity.ok(bookingService.getBookingByUserAndRoom(userId, roomId));
+    }
+
+    @GetMapping("/countBooking")
+    public ResponseEntity<Long> countBooking(){
+        return ResponseEntity.ok(bookingService.countBooking());
     }
 
     @GetMapping("/deleteBooking")
@@ -45,8 +55,8 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.deleteBooking(bookingId, roomId));
     }
 
-    @GetMapping("/addBooking")
-    public ResponseEntity<Booking> addBooking(Booking booking) {
-        return ResponseEntity.ok(bookingService.addBooking(booking));
+    @PostMapping("/addBooking")
+    public ResponseEntity<Booking> addBooking(@RequestBody BookingRequest request) {
+        return ResponseEntity.ok(bookingService.addBooking(request));
     }
 }
