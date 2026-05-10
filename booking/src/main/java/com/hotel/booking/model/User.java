@@ -33,8 +33,8 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(nullable = false, columnDefinition = "int8 default 50")
-    private Long loyaltyPoint;
+    @Column(nullable = false)
+    private Long loyaltyPoint = 50L;
 
     public enum Role { 
         CUSTOMER, 
