@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 export default function Register() {
     const [error, setError] = useState('');
@@ -19,8 +20,9 @@ export default function Register() {
         try {
             await api.post('/auth/register', registerForm);
             navigate('/login');
+            toast.success('Register success!');
         } catch {
-            setError('Registration failed. Please try again.');
+            toast.error('Invalid register!');
         }
     };
 

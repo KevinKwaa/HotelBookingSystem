@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -17,8 +18,9 @@ export default function Login() {
       const { data } = await api.post('/auth/login', form);
       login(data);
       navigate(data.role === 'STAFF' ? '/staff' : '/customer');
+      toast.success('Login success!');
     } catch {
-      setError('Invalid email or password');
+      toast.error('Invalid login!');
     }
   };
 
