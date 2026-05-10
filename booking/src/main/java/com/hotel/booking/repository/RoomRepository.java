@@ -18,37 +18,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         AND r.status = 'Available'
         AND r.id NOT IN (
             SELECT b.room.id FROM Booking b
-            WHERE b.bookingStatus != 'CANCELLED'
-            AND b.checkIn < :checkOut
+            WHERE b.checkIn < :checkOut
             AND b.checkOut > :checkIn
         )
     """)
     List<Room> findAvailableRooms(
         @Param("checkIn") LocalDate checkIn,
         @Param("checkOut") LocalDate checkOut,
-        @Param("category") Room.Category category
-    );
-
-    @Query("""
-        SELECT r FROM Room r
-        WHERE r.status = 'Available'
-        AND r.id NOT IN (
-            SELECT b.room.id FROM Booking b
-            WHERE b.bookingStatus != 'CANCELLED'
-        )
-    """)
-    List<Room> findAllAvailable();
-
-    @Query("""
-        SELECT r FROM Room r
-        WHERE (:category IS NULL OR r.category = :category)
-        AND r.status = 'Available'
-        AND r.id NOT IN (
-            SELECT b.room.id FROM Booking b
-            WHERE b.bookingStatus != 'CANCELLED'
-        )
-    """)
-    List<Room> findByCategoryAvailable(
         @Param("category") Room.Category category
     );
 }

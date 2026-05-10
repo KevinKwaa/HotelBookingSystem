@@ -24,15 +24,10 @@ public class RoomController {
         @RequestParam(required = false) Room.Category category,
         @RequestParam User.Role role
     ) {
-        if (checkIn == null || checkOut == null) {
-            if (category != null) {
-                if(role == User.Role.STAFF){
-                    return ResponseEntity.ok(roomService.findByCategory(category));
-                } else {
-                    return ResponseEntity.ok(roomService.findByCategoryAvailable(category));
-                }
+        if (category != null) {
+            if(role == User.Role.STAFF){
+                return ResponseEntity.ok(roomService.findByCategory(category));
             }
-            return ResponseEntity.ok(roomService.findAllAvailable());
         }
         return ResponseEntity.ok(roomService.findAvailable(checkIn, checkOut, category));
     }

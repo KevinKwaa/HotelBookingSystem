@@ -13,4 +13,5 @@ public class AuthResponse {
     private String phoneNumber;
     private String role;
     private LocalDateTime createdAt;
+    private Long loyaltyPoint;
 }

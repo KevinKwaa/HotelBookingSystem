@@ -4,7 +4,6 @@ import com.hotel.booking.model.Room;
 import com.hotel.booking.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,14 +19,6 @@ public class RoomService {
 
     public List<Room> findAll() {
         return roomRepository.findAll();
-    }
-
-    public List<Room> findAllAvailable() {
-        return roomRepository.findAllAvailable();
-    }
-
-    public List<Room> findByCategoryAvailable(Room.Category category) {
-        return roomRepository.findByCategoryAvailable(category);
     }
 
     public List<Room> findByCategory(Room.Category category) {

@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
-import LoginPage from './pages/Login';
-import RegisterPage from './pages/Register';
-import UserProfile from './pages/UserProfile';
-import Customer from './pages/Customer';
-import Staff from './pages/Staff';
-import BookingHistory from './pages/BookingHistory';
-import BookHotel from './pages/BookHotel';
+import LoginPage from './pages/auth/Login';
+import RegisterPage from './pages/auth/Register';
+import UserProfile from './pages/auth/UserProfile';
+import Customer from './pages/customer/Customer';
+import Staff from './pages/staff/Staff';
+import BookingHistory from './pages/shareComponents/BookingHistory';
+import BookHotel from './pages/shareComponents/BookHotel';
+import CustomerList from './pages/staff/CustomerList';
 // import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/staff" element={<Staff />} />
             <Route path="/bookingHistory" element={<BookingHistory />} />
             <Route path="/bookHotel" element={<BookHotel />} />
+            <Route path="/customerList" element={<CustomerList />} />
             {/* <Route path="/my-bookings" element={
               <ProtectedRoute><MyBookingsPage /></ProtectedRoute>
             } /> */}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axios';
-import { useAuth } from '../context/AuthContext';
+import api from '../../api/axios';
+import { useAuth } from '../../context/AuthContext';
 
 export default function BookingHistory(){
     const navigate = useNavigate();
@@ -44,6 +44,7 @@ export default function BookingHistory(){
                     <thead className="bg-slate-700">
                         <tr>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Room</th>
+                            <th className="px-4 py-3 text-left font-semibold text-slate-400">Customer Name</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Category</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Check In Date</th>
                             <th className="px-4 py-3 text-left font-semibold text-slate-400">Check Out Date</th>
@@ -58,6 +59,9 @@ export default function BookingHistory(){
                             <tr key={booking.id} className="border-t border-slate-700">
                                 <td className="px-4 py-3 text-left text-white">
                                     {booking.room?.roomNumber ?? '—'}
+                                </td>
+                                <td className="px-4 py-3 text-left text-white">
+                                    {booking.user?.name ?? '—'}
                                 </td>
                                 <td className="px-4 py-3 text-left text-white">
                                     {booking.room?.category ?? '—'}

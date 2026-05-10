@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axios';
-import { useAuth } from '../context/AuthContext';
+import api from '../../api/axios';
+import { useAuth } from '../../context/AuthContext';
 import { BedDouble, ClipboardList } from "lucide-react";
 
 export default function Staff(){
@@ -53,6 +53,20 @@ export default function Staff(){
                     <div>
                         <p className="font-semibold text-base">Booking History</p>
                         <p className="text-slate-400 text-xs mt-0.5">Check customer's booking history</p>
+                    </div>
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => navigate('/customerList')}
+                    className="flex items-center gap-4 bg-slate-700 hover:bg-slate-600 text-white px-6 py-5 rounded-xl transition-colors w-full sm:w-64 text-left"
+                >
+                    <div className="bg-indigo-500 p-2 rounded-lg">
+                        <ClipboardList size={22} className="text-white" />
+                    </div>
+                    <div>
+                        <p className="font-semibold text-base">Customer List</p>
+                        <p className="text-slate-400 text-xs mt-0.5">Check up customer's data</p>
                     </div>
                 </button>
             </div>

@@ -31,7 +31,8 @@ public class AuthService {
             user.getEmail(), 
             user.getPhoneNumber(),
             user.getRole().name(),
-            user.getCreatedAt()
+            user.getCreatedAt(),
+            user.getLoyaltyPoint()
         );
     }
 
@@ -51,7 +52,8 @@ public class AuthService {
             user.getEmail(), 
             user.getPhoneNumber(),
             user.getRole().name(),
-            user.getCreatedAt()
+            user.getCreatedAt(),
+            user.getLoyaltyPoint()
         );
     }
 }

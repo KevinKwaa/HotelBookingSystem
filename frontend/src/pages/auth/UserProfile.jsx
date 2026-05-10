@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axios';
-import { useAuth } from '../context/AuthContext';
+import api from '../../api/axios';
+import { useAuth } from '../../context/AuthContext';
 
 export default function UserProfile(){
     const navigate = useNavigate();
@@ -75,6 +75,13 @@ export default function UserProfile(){
                             <td>:</td>
                             <td className="px-4 py-2 text-left">
                                 {user.createdAt ? user.createdAt.split('T')[0] : '—'}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="py-2 pr-6 text-left font-medium text-gray-500">Loyalty Points</td>
+                            <td>:</td>
+                            <td className="px-4 py-2 text-left">
+                                {user.loyaltyPoint ?? '—'}
                             </td>
                         </tr>
                     </tbody>

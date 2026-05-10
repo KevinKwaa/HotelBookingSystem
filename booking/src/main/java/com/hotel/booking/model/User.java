@@ -1,9 +1,7 @@
 package com.hotel.booking.model;
 
 import java.time.LocalDateTime;
-
 import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +32,9 @@ public class User {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false, columnDefinition = "int8 default 50")
+    private Long loyaltyPoint;
 
     public enum Role { 
         CUSTOMER, 
