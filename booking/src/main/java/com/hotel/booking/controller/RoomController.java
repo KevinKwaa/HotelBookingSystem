@@ -1,7 +1,6 @@
 package com.hotel.booking.controller;
 
 import com.hotel.booking.model.Room;
-import com.hotel.booking.model.User;
 import com.hotel.booking.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
